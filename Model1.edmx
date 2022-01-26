@@ -1,0 +1,547 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="mydatabaseModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="event_db">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="event_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="event_team_id1" Type="int" />
+          <Property Name="event_team_id2" Type="int" />
+          <Property Name="event_start" Type="time" Precision="7" />
+          <Property Name="event_lock" Type="time" Precision="7" />
+          <Property Name="event_end" Type="time" Precision="7" />
+          <Property Name="event_count" Type="int" />
+          <Property Name="event_status" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'E:\EXTRAS\COLLEGE\SEM 5\PROJECT\PROJECT\APP_DATA\MYDATABASE.MDF.dbo.event_player' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="event_player">
+          <Property Name="event_id" Type="int" />
+          <Property Name="player_id" Type="int" />
+          <Property Name="player_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="player_points" Type="float" />
+        </EntityType>-->
+        <EntityType Name="player_db">
+          <Key>
+            <PropertyRef Name="player_id" />
+          </Key>
+          <Property Name="player_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="team_id" Type="int" />
+          <Property Name="player_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="player_type" Type="nvarchar" MaxLength="50" />
+          <Property Name="player_value" Type="float" />
+          <Property Name="player_status" Type="nvarchar" MaxLength="50" />
+          <Property Name="player_ovr" Type="int" />
+          <Property Name="player_image" Type="image" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'E:\EXTRAS\COLLEGE\SEM 5\PROJECT\PROJECT\APP_DATA\MYDATABASE.MDF.dbo.result_db' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="result_db">
+          <Property Name="event_id" Type="int" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="user_team_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_pts" Type="float" />
+          <Property Name="user_rank" Type="int" />
+        </EntityType>-->
+        <EntityType Name="team_db">
+          <Key>
+            <PropertyRef Name="team_id" />
+          </Key>
+          <Property Name="team_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="team_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="team_ranking" Type="int" />
+        </EntityType>
+        <EntityType Name="user_db">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_pwd" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_email" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_bday" Type="date" />
+          <Property Name="user_country" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_fav_team" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_per_factor" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'E:\EXTRAS\COLLEGE\SEM 5\PROJECT\PROJECT\APP_DATA\MYDATABASE.MDF.dbo.user_player_db' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="user_player_db">
+          <Key>
+            <PropertyRef Name="user_team_id" />
+          </Key>
+          <Property Name="user_team_id" Type="int" Nullable="false" />
+          <Property Name="player_id" Type="int" />
+          <Property Name="player_team" Type="nvarchar" MaxLength="50" />
+          <Property Name="player_type" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="user_team_db">
+          <Key>
+            <PropertyRef Name="user_team_id" />
+          </Key>
+          <Property Name="event_id" Type="int" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="user_team_name" Type="nvarchar" MaxLength="50" />
+          <Property Name="user_team_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="star_bats" Type="nvarchar" MaxLength="50" />
+          <Property Name="star_bowl" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_event_db_ToTable">
+          <End Role="team_db" Type="Self.team_db" Multiplicity="0..1" />
+          <End Role="event_db" Type="Self.event_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_db">
+              <PropertyRef Name="team_id" />
+            </Principal>
+            <Dependent Role="event_db">
+              <PropertyRef Name="event_team_id1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_event_db_ToTable_1">
+          <End Role="team_db" Type="Self.team_db" Multiplicity="0..1" />
+          <End Role="event_db" Type="Self.event_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_db">
+              <PropertyRef Name="team_id" />
+            </Principal>
+            <Dependent Role="event_db">
+              <PropertyRef Name="event_team_id2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_player_db_ToTable">
+          <End Role="team_db" Type="Self.team_db" Multiplicity="0..1" />
+          <End Role="player_db" Type="Self.player_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_db">
+              <PropertyRef Name="team_id" />
+            </Principal>
+            <Dependent Role="player_db">
+              <PropertyRef Name="team_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+error 6004: The table 'E:\EXTRAS\COLLEGE\SEM 5\PROJECT\PROJECT\APP_DATA\MYDATABASE.MDF.dbo.result_db' is referenced by a relationship, but cannot be found.
+        <Association Name="FK_result_db_ToTable" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'E:\EXTRAS\COLLEGE\SEM 5\PROJECT\PROJECT\APP_DATA\MYDATABASE.MDF.dbo.result_db' is referenced by a relationship, but cannot be found.
+        <Association Name="FK_result_db_ToTable_1" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'E:\EXTRAS\COLLEGE\SEM 5\PROJECT\PROJECT\APP_DATA\MYDATABASE.MDF.dbo.event_player' is referenced by a relationship, but cannot be found.
+        <Association Name="FK_Table_ToTable_2" />-->
+        <!--Errors Found During Generation:
+error 6004: The table 'E:\EXTRAS\COLLEGE\SEM 5\PROJECT\PROJECT\APP_DATA\MYDATABASE.MDF.dbo.event_player' is referenced by a relationship, but cannot be found.
+        <Association Name="FK_Table_ToTable_3" />-->
+        <Association Name="FK_user_player_db_ToTable">
+          <End Role="user_team_db" Type="Self.user_team_db" Multiplicity="1" />
+          <End Role="user_player_db" Type="Self.user_player_db" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="user_team_db">
+              <PropertyRef Name="user_team_id" />
+            </Principal>
+            <Dependent Role="user_player_db">
+              <PropertyRef Name="user_team_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_player_db_ToTable_1">
+          <End Role="player_db" Type="Self.player_db" Multiplicity="0..1" />
+          <End Role="user_player_db" Type="Self.user_player_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="player_db">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="user_player_db">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_user_player_db_ToTable_2' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_user_player_db_ToTable_2" />-->
+        <Association Name="FK_user_team_db_ToTable">
+          <End Role="event_db" Type="Self.event_db" Multiplicity="0..1" />
+          <End Role="user_team_db" Type="Self.user_team_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event_db">
+              <PropertyRef Name="event_id" />
+            </Principal>
+            <Dependent Role="user_team_db">
+              <PropertyRef Name="event_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_team_db_ToTable_1">
+          <End Role="user_db" Type="Self.user_db" Multiplicity="0..1" />
+          <End Role="user_team_db" Type="Self.user_team_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_db">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="user_team_db">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="mydatabaseModelStoreContainer">
+          <EntitySet Name="event_db" EntityType="Self.event_db" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="player_db" EntityType="Self.player_db" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="team_db" EntityType="Self.team_db" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_db" EntityType="Self.user_db" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_team_db" EntityType="Self.user_team_db" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="user_player_db" EntityType="Self.user_player_db" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [user_player_db].[user_team_id] AS [user_team_id], 
+    [user_player_db].[player_id] AS [player_id], 
+    [user_player_db].[player_team] AS [player_team], 
+    [user_player_db].[player_type] AS [player_type]
+    FROM [dbo].[user_player_db] AS [user_player_db]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_event_db_ToTable" Association="Self.FK_event_db_ToTable">
+            <End Role="team_db" EntitySet="team_db" />
+            <End Role="event_db" EntitySet="event_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_event_db_ToTable_1" Association="Self.FK_event_db_ToTable_1">
+            <End Role="team_db" EntitySet="team_db" />
+            <End Role="event_db" EntitySet="event_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_player_db_ToTable" Association="Self.FK_player_db_ToTable">
+            <End Role="team_db" EntitySet="team_db" />
+            <End Role="player_db" EntitySet="player_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_player_db_ToTable" Association="Self.FK_user_player_db_ToTable">
+            <End Role="user_team_db" EntitySet="user_team_db" />
+            <End Role="user_player_db" EntitySet="user_player_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_player_db_ToTable_1" Association="Self.FK_user_player_db_ToTable_1">
+            <End Role="player_db" EntitySet="player_db" />
+            <End Role="user_player_db" EntitySet="user_player_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_team_db_ToTable" Association="Self.FK_user_team_db_ToTable">
+            <End Role="event_db" EntitySet="event_db" />
+            <End Role="user_team_db" EntitySet="user_team_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_team_db_ToTable_1" Association="Self.FK_user_team_db_ToTable_1">
+            <End Role="user_db" EntitySet="user_db" />
+            <End Role="user_team_db" EntitySet="user_team_db" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="mydatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="event_db">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="event_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="event_team_id1" Type="Int32" />
+          <Property Name="event_team_id2" Type="Int32" />
+          <Property Name="event_start" Type="Time" Precision="7" />
+          <Property Name="event_lock" Type="Time" Precision="7" />
+          <Property Name="event_end" Type="Time" Precision="7" />
+          <Property Name="event_count" Type="Int32" />
+          <Property Name="event_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="team_db" Relationship="Self.FK_event_db_ToTable" FromRole="event_db" ToRole="team_db" />
+          <NavigationProperty Name="team_db1" Relationship="Self.FK_event_db_ToTable_1" FromRole="event_db" ToRole="team_db" />
+          <NavigationProperty Name="user_team_db" Relationship="Self.FK_user_team_db_ToTable" FromRole="event_db" ToRole="user_team_db" />
+        </EntityType>
+        <EntityType Name="player_db">
+          <Key>
+            <PropertyRef Name="player_id" />
+          </Key>
+          <Property Name="player_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="team_id" Type="Int32" />
+          <Property Name="player_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="player_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="player_value" Type="Double" />
+          <Property Name="player_status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="player_ovr" Type="Int32" />
+          <Property Name="player_image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <NavigationProperty Name="team_db" Relationship="Self.FK_player_db_ToTable" FromRole="player_db" ToRole="team_db" />
+          <NavigationProperty Name="user_player_db" Relationship="Self.FK_user_player_db_ToTable_1" FromRole="player_db" ToRole="user_player_db" />
+        </EntityType>
+        <EntityType Name="team_db">
+          <Key>
+            <PropertyRef Name="team_id" />
+          </Key>
+          <Property Name="team_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="team_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="team_ranking" Type="Int32" />
+          <NavigationProperty Name="event_db" Relationship="Self.FK_event_db_ToTable" FromRole="team_db" ToRole="event_db" />
+          <NavigationProperty Name="event_db1" Relationship="Self.FK_event_db_ToTable_1" FromRole="team_db" ToRole="event_db" />
+          <NavigationProperty Name="player_db" Relationship="Self.FK_player_db_ToTable" FromRole="team_db" ToRole="player_db" />
+        </EntityType>
+        <EntityType Name="user_db">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_pwd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_bday" Type="DateTime" Precision="0" />
+          <Property Name="user_country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_fav_team" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_per_factor" Type="Double" />
+          <NavigationProperty Name="user_team_db" Relationship="Self.FK_user_team_db_ToTable_1" FromRole="user_db" ToRole="user_team_db" />
+        </EntityType>
+        <EntityType Name="user_team_db">
+          <Key>
+            <PropertyRef Name="user_team_id" />
+          </Key>
+          <Property Name="event_id" Type="Int32" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="user_team_name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="user_team_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="star_bats" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="star_bowl" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="event_db" Relationship="Self.FK_user_team_db_ToTable" FromRole="user_team_db" ToRole="event_db" />
+          <NavigationProperty Name="user_db" Relationship="Self.FK_user_team_db_ToTable_1" FromRole="user_team_db" ToRole="user_db" />
+          <NavigationProperty Name="user_player_db" Relationship="Self.FK_user_player_db_ToTable" FromRole="user_team_db" ToRole="user_player_db" />
+        </EntityType>
+        <EntityType Name="user_player_db">
+          <Key>
+            <PropertyRef Name="user_team_id" />
+          </Key>
+          <Property Name="user_team_id" Type="Int32" Nullable="false" />
+          <Property Name="player_id" Type="Int32" />
+          <Property Name="player_team" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="player_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="player_db" Relationship="Self.FK_user_player_db_ToTable_1" FromRole="user_player_db" ToRole="player_db" />
+          <NavigationProperty Name="user_team_db" Relationship="Self.FK_user_player_db_ToTable" FromRole="user_player_db" ToRole="user_team_db" />
+        </EntityType>
+        <Association Name="FK_event_db_ToTable">
+          <End Role="team_db" Type="Self.team_db" Multiplicity="0..1" />
+          <End Role="event_db" Type="Self.event_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_db">
+              <PropertyRef Name="team_id" />
+            </Principal>
+            <Dependent Role="event_db">
+              <PropertyRef Name="event_team_id1" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_event_db_ToTable_1">
+          <End Role="team_db" Type="Self.team_db" Multiplicity="0..1" />
+          <End Role="event_db" Type="Self.event_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_db">
+              <PropertyRef Name="team_id" />
+            </Principal>
+            <Dependent Role="event_db">
+              <PropertyRef Name="event_team_id2" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_team_db_ToTable">
+          <End Role="event_db" Type="Self.event_db" Multiplicity="0..1" />
+          <End Role="user_team_db" Type="Self.user_team_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="event_db">
+              <PropertyRef Name="event_id" />
+            </Principal>
+            <Dependent Role="user_team_db">
+              <PropertyRef Name="event_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_player_db_ToTable">
+          <End Role="team_db" Type="Self.team_db" Multiplicity="0..1" />
+          <End Role="player_db" Type="Self.player_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="team_db">
+              <PropertyRef Name="team_id" />
+            </Principal>
+            <Dependent Role="player_db">
+              <PropertyRef Name="team_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_player_db_ToTable_1">
+          <End Role="player_db" Type="Self.player_db" Multiplicity="0..1" />
+          <End Role="user_player_db" Type="Self.user_player_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="player_db">
+              <PropertyRef Name="player_id" />
+            </Principal>
+            <Dependent Role="user_player_db">
+              <PropertyRef Name="player_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_team_db_ToTable_1">
+          <End Role="user_db" Type="Self.user_db" Multiplicity="0..1" />
+          <End Role="user_team_db" Type="Self.user_team_db" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="user_db">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="user_team_db">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_user_player_db_ToTable">
+          <End Role="user_team_db" Type="Self.user_team_db" Multiplicity="1" />
+          <End Role="user_player_db" Type="Self.user_player_db" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="user_team_db">
+              <PropertyRef Name="user_team_id" />
+            </Principal>
+            <Dependent Role="user_player_db">
+              <PropertyRef Name="user_team_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="event_db" EntityType="Self.event_db" />
+          <EntitySet Name="player_db" EntityType="Self.player_db" />
+          <EntitySet Name="team_db" EntityType="Self.team_db" />
+          <EntitySet Name="user_db" EntityType="Self.user_db" />
+          <EntitySet Name="user_team_db" EntityType="Self.user_team_db" />
+          <EntitySet Name="user_player_db" EntityType="Self.user_player_db" />
+          <AssociationSet Name="FK_event_db_ToTable" Association="Self.FK_event_db_ToTable">
+            <End Role="team_db" EntitySet="team_db" />
+            <End Role="event_db" EntitySet="event_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_event_db_ToTable_1" Association="Self.FK_event_db_ToTable_1">
+            <End Role="team_db" EntitySet="team_db" />
+            <End Role="event_db" EntitySet="event_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_team_db_ToTable" Association="Self.FK_user_team_db_ToTable">
+            <End Role="event_db" EntitySet="event_db" />
+            <End Role="user_team_db" EntitySet="user_team_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_player_db_ToTable" Association="Self.FK_player_db_ToTable">
+            <End Role="team_db" EntitySet="team_db" />
+            <End Role="player_db" EntitySet="player_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_player_db_ToTable_1" Association="Self.FK_user_player_db_ToTable_1">
+            <End Role="player_db" EntitySet="player_db" />
+            <End Role="user_player_db" EntitySet="user_player_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_team_db_ToTable_1" Association="Self.FK_user_team_db_ToTable_1">
+            <End Role="user_db" EntitySet="user_db" />
+            <End Role="user_team_db" EntitySet="user_team_db" />
+          </AssociationSet>
+          <AssociationSet Name="FK_user_player_db_ToTable" Association="Self.FK_user_player_db_ToTable">
+            <End Role="user_team_db" EntitySet="user_team_db" />
+            <End Role="user_player_db" EntitySet="user_player_db" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="mydatabaseModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="event_db">
+            <EntityTypeMapping TypeName="mydatabaseModel.event_db">
+              <MappingFragment StoreEntitySet="event_db">
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+                <ScalarProperty Name="event_name" ColumnName="event_name" />
+                <ScalarProperty Name="event_team_id1" ColumnName="event_team_id1" />
+                <ScalarProperty Name="event_team_id2" ColumnName="event_team_id2" />
+                <ScalarProperty Name="event_start" ColumnName="event_start" />
+                <ScalarProperty Name="event_lock" ColumnName="event_lock" />
+                <ScalarProperty Name="event_end" ColumnName="event_end" />
+                <ScalarProperty Name="event_count" ColumnName="event_count" />
+                <ScalarProperty Name="event_status" ColumnName="event_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="player_db">
+            <EntityTypeMapping TypeName="mydatabaseModel.player_db">
+              <MappingFragment StoreEntitySet="player_db">
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="team_id" ColumnName="team_id" />
+                <ScalarProperty Name="player_name" ColumnName="player_name" />
+                <ScalarProperty Name="player_type" ColumnName="player_type" />
+                <ScalarProperty Name="player_value" ColumnName="player_value" />
+                <ScalarProperty Name="player_status" ColumnName="player_status" />
+                <ScalarProperty Name="player_ovr" ColumnName="player_ovr" />
+                <ScalarProperty Name="player_image" ColumnName="player_image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="team_db">
+            <EntityTypeMapping TypeName="mydatabaseModel.team_db">
+              <MappingFragment StoreEntitySet="team_db">
+                <ScalarProperty Name="team_id" ColumnName="team_id" />
+                <ScalarProperty Name="team_name" ColumnName="team_name" />
+                <ScalarProperty Name="team_ranking" ColumnName="team_ranking" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_db">
+            <EntityTypeMapping TypeName="mydatabaseModel.user_db">
+              <MappingFragment StoreEntitySet="user_db">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_pwd" ColumnName="user_pwd" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_bday" ColumnName="user_bday" />
+                <ScalarProperty Name="user_country" ColumnName="user_country" />
+                <ScalarProperty Name="user_fav_team" ColumnName="user_fav_team" />
+                <ScalarProperty Name="user_per_factor" ColumnName="user_per_factor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_team_db">
+            <EntityTypeMapping TypeName="mydatabaseModel.user_team_db">
+              <MappingFragment StoreEntitySet="user_team_db">
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_team_name" ColumnName="user_team_name" />
+                <ScalarProperty Name="user_team_id" ColumnName="user_team_id" />
+                <ScalarProperty Name="star_bats" ColumnName="star_bats" />
+                <ScalarProperty Name="star_bowl" ColumnName="star_bowl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="user_player_db">
+            <EntityTypeMapping TypeName="mydatabaseModel.user_player_db">
+              <MappingFragment StoreEntitySet="user_player_db">
+                <ScalarProperty Name="user_team_id" ColumnName="user_team_id" />
+                <ScalarProperty Name="player_id" ColumnName="player_id" />
+                <ScalarProperty Name="player_team" ColumnName="player_team" />
+                <ScalarProperty Name="player_type" ColumnName="player_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
